@@ -25,7 +25,9 @@ In conclusion, revisiting the Apollo 11 mission from an engineering perspective 
 AGENT_QUERIES = [
     "Agent A: Summarize the main argument of this document in 3 sentences.",
     "Agent B: What are the key technical contributions mentioned?",
-    "Agent C: What limitations or weaknesses does the document acknowledge?"
+    "Agent C: What limitations or weaknesses does the document acknowledge?",
+    "Agent D: What specific hardware constraints does the document mention?",
+    "Agent E: What year did the event described in this document take place?"
 ]
 
 def run_experiment():
@@ -57,11 +59,11 @@ def run_experiment():
     pool.encode(raw_kv_cache)
     print(f"Compression ratio: {pool.get_compression_ratio():.2f}x")
 
-    # ── STEP 3: Run 3 agents from shared pool ──
+    # ── STEP 3: Run 5 agents from shared pool ──
     print("\nRunning agents from SHARED COMPRESSED pool...")
     pooled_agents = [
         PooledAgent(f"agent_{i}", pool, model, tokenizer)
-        for i in range(3)
+        for i in range(5)
     ]
     pooled_outputs = []
     for agent, query in zip(pooled_agents, AGENT_QUERIES):
@@ -132,7 +134,7 @@ def run_experiment():
     # ── STEP 6: Measure quality ──
     print("\n── RESULTS ──")
     print(f"Compression ratio: {pool.get_compression_ratio():.2f}x memory saved")
-    print(f"Memory: {3} agents share 1 pool vs {3} full-precision copies")
+    print(f"Memory: {5} agents share 1 pool vs {5} full-precision copies")
     print(f"Baseline PPL: {baseline_ppl:.3f} | Compressed PPL: {compressed_ppl:.3f} | Delta: {ppl_delta:.2f}%")
     
     # Simple semantic similarity check
