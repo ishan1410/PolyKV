@@ -16,8 +16,7 @@ produce quality output comparable to full-precision per-agent KV caches?
 1. PPL delta does not grow with context length — it inverts at 1851 tokens
 2. Compression ratio stable at 2.91x across all context lengths tested
 3. At 5 agents, pool stability holds — PPL delta unchanged
-4. At long context, compressed cache outperformed full-precision baseline on one
-   synthesis query (Agent 1, Test 2) — baseline tripped EOS, compressed did not
+4. At long context, compressed cache outperformed full-precision baseline on one synthesis query (Agent 1, Test 2) — baseline generated empty string (EOS), compressed model returned a correct bulleted answer; overlap=0.000 reflects metric failure, not quality failure
 5. Factual retrieval agents consistently achieve 0.912-1.000 token overlap
 ## Conclusion
 Shared asymmetric TurboQuant KV compression is stable, scalable, and improves
