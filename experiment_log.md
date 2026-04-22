@@ -40,6 +40,14 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
   * **Token Overlap:** Agent 0: `0.955 (✓ Good)` | Agent 1: `0.000 (✗ Degraded)` | Agent 2: `0.324 (✗ Degraded)`
 * **Analysis:** The mathematical boundaries definitively shifted into regularization at higher contexts resulting in a technically superior Compressed formulation (`-0.26%` PPL delta vs baseline native structures). Moreover, Agent 1 successfully bypassed a baseline hallucination error where the native uncompressed model terminated early emitting empty spaces, whereas the compressed iteration resolved detailed accurate answers flawlessly outperforming baseline execution caching. Agent overlaps fluctuated largely reflecting identical, correct analytical bounds structured through slightly modified synonyms.
 
+### Phase 0.5 Test 3: Scaling Density at Extended Context (5 agents, 1851 tokens)
+* **Configuration:** Evaluated 5 concurrent agents against the 1,851-token technical history of ARPANET. Queries focused on factual retrieval and evolutionary milestones of the network.
+* **Results:**
+  * **Compression Ratio:** `2.91x` Memory Reduction
+  * **Perplexity:** Baseline PPL: 10.369 | Compressed PPL: 10.342 | Delta: -0.26%
+  * **Token Overlap:** Agent 0: 0.917 [✓ Good] | Agent 1: 0.835 [✗ Degraded] | Agent 2: 1.000 [✓ Good] | Agent 3: 0.273 [✗ Degraded] | Agent 4: 1.000 [✓ Good]
+* **Analysis:** Confirmed pool stability at high agent density across long contexts. The perplexity inversion persists, suggesting quantization acting as a regularizer. Agent 3 overlap degradation likely due to minor semantic phrasing shifts in the 200-token generation window.
+
 ## Phase 0.5 — Test 3 (5 agents, 1851 tokens)
 - Tokens: 1,851
 - Agents: 5

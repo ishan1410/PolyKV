@@ -12,6 +12,7 @@ produce quality output comparable to full-precision per-agent KV caches?
 | Phase 0 | ~600 | 3 | 2.91x | 14.085 | 14.159 | +0.53% |
 | Test 1 (5 agents) | ~600 | 5 | 2.91x | 14.085 | 14.159 | +0.53% |
 | Test 2 (long ctx) | 1851 | 3 | 2.91x | 10.369 | 10.342 | -0.26% |
+| Test 3 (5 agents, long) | 1851 | 5 | 2.91x | 10.369 | 10.342 | -0.26% |
 ## Key Findings
 1. PPL delta does not grow with context length — it inverts at 1851 tokens
 2. Compression ratio stable at 2.91x across all context lengths tested
