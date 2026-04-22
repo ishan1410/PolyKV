@@ -39,3 +39,18 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
   * **Perplexity:** Baseline PPL: 10.369 | Compressed PPL: 10.342 | Delta: -0.26%
   * **Token Overlap:** Agent 0: `0.955 (✓ Good)` | Agent 1: `0.000 (✗ Degraded)` | Agent 2: `0.324 (✗ Degraded)`
 * **Analysis:** The mathematical boundaries definitively shifted into regularization at higher contexts resulting in a technically superior Compressed formulation (`-0.26%` PPL delta vs baseline native structures). Moreover, Agent 1 successfully bypassed a baseline hallucination error where the native uncompressed model terminated early emitting empty spaces, whereas the compressed iteration resolved detailed accurate answers flawlessly outperforming baseline execution caching. Agent overlaps fluctuated largely reflecting identical, correct analytical bounds structured through slightly modified synonyms.
+
+## Phase 0.5 — Test 3 (5 agents, 1851 tokens)
+- Tokens: 1,851
+- Agents: 5
+- Compression ratio: 2.91x
+- Baseline PPL: 10.369
+- Compressed PPL: 10.342
+- Delta: -0.26%
+- Token overlap per agent:
+  - Agent 0: 0.917 [✓ Good]
+  - Agent 1: 0.835 [✗ Degraded]
+  - Agent 2: 1.000 [✓ Good]
+  - Agent 3: 0.273 [✗ Degraded]
+  - Agent 4: 1.000 [✓ Good]
+
