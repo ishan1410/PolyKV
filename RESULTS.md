@@ -18,7 +18,7 @@ produce quality output comparable to full-precision per-agent KV caches?
 ### Findings
 - 2.91x compression ratio is consistent across model scales (1.7B to 8B).
 - **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift preserves >95% semantic similarity to full-precision baselines across all agents.
-- **Memory Scaling Efficiency:** PolyKV achieves **O(1) memory complexity** for document context. As agent density and context length increase, memory reduction becomes more pronounced, reaching **12.7 GB saved** in 7k-token contexts.
+- **Memory Scaling Efficiency:** PolyKV achieves **O(1) memory complexity** for document context. As agent density and context length increase, memory reduction becomes more pronounced, reaching a peak of **19.3 GB saved** (97.7% reduction) in 15-agent long-context scenarios.
 
 | Context Tokens | Agents | Without PolyKV | With PolyKV | Reduction | PPL Delta | Mean F1 |
 |---|---|---|---|---|---|---|
@@ -26,6 +26,7 @@ produce quality output comparable to full-precision per-agent KV caches?
 | 1,837 | 5 | 1.684 GB | 0.116 GB | 93.1% | +1.59% | 0.9582 |
 | 1,837 | 10 | 3.369 GB | 0.116 GB | 96.6% | +1.59% | 0.9695 |
 | 7,194 | 10 | 13.199 GB | 0.454 GB | 96.6% | +0.57% | 0.9328 |
+| 7,194 | 15 | 19.798 GB | 0.454 GB | 97.7% | +0.57% | 0.9279 |
 
 - **Long-Context Performance:** PPL delta improves significantly at longer context (+1.59% → +0.57%), confirming that the compression pipeline becomes more faithful as document redundancy increases.
 - **Quality-Memory Tradeoff:** While memory reduction remains constant at 96.6%, mean BERTScore F1 slightly decreases at extreme context lengths (0.93 vs 0.96), primarily due to retrieval variance across heterogeneous documents.
