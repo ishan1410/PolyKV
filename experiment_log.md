@@ -62,3 +62,11 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
   - Agent 3: 0.273 [✗ Degraded]
   - Agent 4: 1.000 [✓ Good]
 
+### Phase 0.5 Test 4: WikiText-2 Benchmark (3 agents, 1953 tokens)
+* **Configuration:** Replaced custom ARPANET document with WikiText-2 test split (wikitext-2-raw-v1). Loaded via HuggingFace datasets, first ~8000 characters (~1953 tokens). 3 agents, same compression pipeline (K at int8, V at TurboQuant MSE 3-bit), max_new_tokens=200, greedy decoding.
+* **Results:**
+  * **Compression Ratio:** 2.91x Memory Reduction
+  * **Perplexity:** Baseline PPL: 8.592 | Compressed PPL: 8.671 | Delta: +0.92%
+  * **Token Overlap:** Agent 0: 1.000 [✓ Good] | Agent 1: 1.000 [✓ Good] | Agent 2: 1.000 [✓ Good]
+* **Analysis:** First standardized benchmark result. Compression ratio remains stable at 2.91x. All agents achieve perfect 1.000 token overlap — cleanest agent quality result across all tests. PPL delta of +0.92% is higher than the coherent ARPANET document (-0.26%), consistent with WikiText-2's diverse, incoherent multi-article structure providing less redundancy for quantization noise to regularize. Both compressed and baseline models generate identical Wikipedia-style markup continuations, confirming the compressed pool perfectly replicates baseline behavior on diverse text.
+
