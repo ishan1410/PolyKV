@@ -105,3 +105,17 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
     * Total memory saved (3 agents): 0.895 GB (88.5% reduction)
 * **Analysis:** The +1.59% PPL delta remains extremely low. High BERTScore F1 (Mean 0.9574) confirms that compressed generations are semantically near-identical to baselines even when token-level phrasing drifts. Agent 1's 0.9008 F1 score was confirmed via manual inspection to be semantically identical to the baseline, with the score decrease being a known artifact of BERTScore's sensitivity to specific Wikipedia-style formatting.
 
+### April 22, 2026: Multi-Agent Scaling (5 Agents) — Llama-3-8B-Instruct
+* **Configuration:** Increased concurrent agent density to 5 agents using the same WikiText-2 context (1837 tokens). Evaluated on Kaggle T4 GPUs.
+* **Results:**
+  * **Compression Ratio:** 2.91x (Stable)
+  * **Perplexity:** Baseline PPL: 8.998 | Compressed PPL: 9.141 | Delta: +1.59% (Identical to 3-agent run)
+  * **BERTScore (F1):** Agent 0: 0.9812 | Agent 1: 0.9008 | Agent 2: 0.9902 | Agent 3: 0.9543 | Agent 4: 0.9644 | **Mean: 0.9582**
+  * **Memory Scaling:**
+    * Full precision KV (1 agent): 0.337 GB
+    * Compressed pool (shared, 1x): 0.116 GB
+    * 5 agents WITHOUT PolyKV sharing: 1.684 GB
+    * 5 agents WITH PolyKV pool: 0.116 GB
+    * **Total memory saved (5 agents): 1.568 GB (93.1% reduction)**
+* **Analysis:** Confirmed that the shared pool size remains **flat (0.116 GB)** regardless of the number of agents. Memory reduction efficiency improved from 88.5% (3 agents) to 93.1% (5 agents), demonstrating that PolyKV's benefits scale linearly with user density. PPL and BERTScore metrics remained stable, proving that the shared compressed state does not degrade under increased concurrent reading pressure.
+

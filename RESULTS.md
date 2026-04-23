@@ -18,7 +18,15 @@ produce quality output comparable to full-precision per-agent KV caches?
 ### Findings
 - 2.91x compression ratio is consistent across model scales (1.7B to 8B).
 - **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift (e.g. Agent 0) preserves >98% semantic similarity to full-precision baselines.
-- **Memory Scaling Efficiency (3 agents):** 0.116 GB (PolyKV) vs 1.011 GB (Full Cache) = 88.5% total reduction in KV memory overhead.
+- **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift (e.g. Agent 0) preserves >98% semantic similarity to full-precision baselines.
+- **Memory Scaling Efficiency:** PolyKV's memory savings improve as agent density increases, while the shared pool size remains constant.
+
+| Agents | Without PolyKV | With PolyKV | Reduction |
+|---|---|---|---|
+| 3 | 1.011 GB | 0.116 GB | 88.5% |
+| 5 | 1.684 GB | 0.116 GB | 93.1% |
+
+- **Multi-Agent Stability:** 5 concurrent agents achieve identical PPL delta (+1.59%) and mean BERTScore F1 (~0.958) compared to 3-agent runs, confirming the shared pool is robust to high concurrent read pressure.
 
 ## Scaling Results (SmolLM2-1.7B)
 | Test | Doc Tokens | Agents | Compression | Baseline PPL | Compressed PPL | Delta |
