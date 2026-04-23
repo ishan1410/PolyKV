@@ -24,21 +24,27 @@ class PooledAgent:
         as the document context memory.
         """
         # Tokenize query
-        input_ids = self.tokenizer.encode(query, return_tensors="pt")
+        # Per-layer device resolution: use device of the first layer for inputs
+        DEVICE = self.model.model.layers[0].self_attn.q_proj.weight.device
+        input_ids = self.tokenizer.encode(query, return_tensors="pt").to(DEVICE)
         
         # Inject compressed KV from shared pool into generation
         # by reconstructing KV tensors layer by layer
-        injected_kv = []
+        from transformers.cache_utils import DynamicCache
+        cache = DynamicCache()
         for layer_idx in range(len(self.model.model.layers)):
             k, v = self.pool.get_kv_for_layer(layer_idx)
-            injected_kv.append((k.to(self.model.dtype), v.to(self.model.dtype)))
-
-        from transformers.cache_utils import DynamicCache
-        cache = DynamicCache.from_legacy_cache(tuple(injected_kv))
+            # Per-layer device resolution for multi-GPU support
+            layer_device = self.model.model.layers[layer_idx].self_attn.q_proj.weight.device
+            cache.update(
+                k.to(layer_device).to(self.model.dtype), 
+                v.to(layer_device).to(self.model.dtype), 
+                layer_idx
+            )
 
         seq_len = cache.get_seq_length()
-        attention_mask = torch.ones(1, seq_len + input_ids.shape[1], dtype=torch.long, device=input_ids.device)
-        cache_position = torch.arange(seq_len, seq_len + input_ids.shape[1], device=input_ids.device)
+        attention_mask = torch.ones(1, seq_len + input_ids.shape[1], dtype=torch.long, device=DEVICE)
+        cache_position = torch.arange(seq_len, seq_len + input_ids.shape[1], device=DEVICE)
 
         # Generate with injected past_key_values
         with torch.no_grad():
