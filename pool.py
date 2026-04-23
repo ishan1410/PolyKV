@@ -1,5 +1,5 @@
 import torch
-from compress import AsymmetricKVCompressor
+from .compress import AsymmetricKVCompressor
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Optional
 
@@ -56,7 +56,7 @@ class SharedKVPool:
         Example:
             pool = SharedKVPool.from_context(model, tokenizer, my_document)
         """
-        from backends._arch import get_first_device
+        from .backends._arch import get_first_device
 
         primary_device = get_first_device(model)
         input_ids = tokenizer.encode(document, return_tensors="pt").to(primary_device)
