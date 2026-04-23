@@ -17,7 +17,7 @@ from .pool import SharedKVPool
 from .agents import PooledAgent
 
 __version__ = "0.1.0"
-__author__ = "Ishan Patel"
+__author__ = "Ishan Patel and Ishan Joshi"
 __doi__ = "10.5281/zenodo.19686730"
 
 __all__ = [

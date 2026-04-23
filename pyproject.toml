@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "polykv"
+version = "0.1.0"
+description = "Shared asymmetrically-compressed KV cache pool for multi-agent LLM inference"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Ishan Patel" },
+]
+keywords = [
+    "kv-cache", "llm", "inference", "compression",
+    "multi-agent", "transformers", "quantization",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+mlx = [
+    "mlx>=0.5.0",
+    "mlx-lm>=0.5.0",
+]
+dev = [
+    "pytest>=7.0",
+    "black",
+    "isort",
+]
+
+[project.urls]
+Homepage = "https://github.com/ishan1410/PolyKV"
+Repository = "https://github.com/ishan1410/PolyKV"
+"Bug Tracker" = "https://github.com/ishan1410/PolyKV/issues"
+DOI = "https://doi.org/10.5281/zenodo.19686730"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["polykv*"]
