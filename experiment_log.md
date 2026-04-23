@@ -119,3 +119,17 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
     * **Total memory saved (5 agents): 1.568 GB (93.1% reduction)**
 * **Analysis:** Confirmed that the shared pool size remains **flat (0.116 GB)** regardless of the number of agents. Memory reduction efficiency improved from 88.5% (3 agents) to 93.1% (5 agents), demonstrating that PolyKV's benefits scale linearly with user density. PPL and BERTScore metrics remained stable, proving that the shared compressed state does not degrade under increased concurrent reading pressure.
 
+### April 22, 2026: High-Density Scaling (10 Agents) — Llama-3-8B-Instruct
+* **Configuration:** Pushed concurrent agent density to 10 agents on a single 1837-token WikiText-2 context. Evaluated on Kaggle T4 GPUs.
+* **Results:**
+  * **Compression Ratio:** 2.91x (Stable)
+  * **Perplexity:** Baseline PPL: 8.998 | Compressed PPL: 9.141 | Delta: +1.59% (Fixed across all scales)
+  * **BERTScore (F1):** 9/10 agents [✓ Good]. Agent 1 remains the solitary [✗ Degraded] artifact. **Mean: 0.9695** (Improved with query diversity).
+  * **Memory Scaling:**
+    * Full precision KV (1 agent): 0.337 GB
+    * Compressed pool (shared, 1x): 0.116 GB
+    * 10 agents WITHOUT PolyKV sharing: 3.369 GB
+    * 10 agents WITH PolyKV pool: 0.116 GB
+    * **Total memory saved (10 agents): 3.253 GB (96.6% reduction)**
+* **Analysis:** PolyKV achieves **O(1) memory complexity** relative to agent count for document context. While the baseline memory overhead grows linearly to over 3.3 GB for 10 agents, the PolyKV pool remains flat at 0.116 GB. The 96.6% reduction represents a near-total elimination of the KV cache bottleneck for multi-agent inference. The stability of the PPL delta across 3, 5, and 10 agents confirms that concurrent reading does not introduce additional noise into the dequantization pipeline.
+

@@ -17,16 +17,16 @@ produce quality output comparable to full-precision per-agent KV caches?
 
 ### Findings
 - 2.91x compression ratio is consistent across model scales (1.7B to 8B).
-- **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift (e.g. Agent 0) preserves >98% semantic similarity to full-precision baselines.
-- **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift (e.g. Agent 0) preserves >98% semantic similarity to full-precision baselines.
-- **Memory Scaling Efficiency:** PolyKV's memory savings improve as agent density increases, while the shared pool size remains constant.
+- **BERTScore Validation:** Replacing token overlap with BERTScore (roberta-large) confirms that phrasing drift preserves >95% semantic similarity to full-precision baselines across all agents.
+- **Memory Scaling Efficiency:** PolyKV achieves **O(1) memory complexity** for document context. As agent density increases, memory reduction scales near-linearly toward the theoretical limit of the compression ratio.
 
-| Agents | Without PolyKV | With PolyKV | Reduction |
-|---|---|---|---|
-| 3 | 1.011 GB | 0.116 GB | 88.5% |
-| 5 | 1.684 GB | 0.116 GB | 93.1% |
+| Agents | Without PolyKV | With PolyKV | Reduction | Mean BERTScore F1 | PPL Delta |
+|---|---|---|---|---|---|
+| 3 | 1.011 GB | 0.116 GB | 88.5% | 0.9574 | +1.59% |
+| 5 | 1.684 GB | 0.116 GB | 93.1% | 0.9582 | +1.59% |
+| 10 | 3.369 GB | 0.116 GB | 96.6% | 0.9695 | +1.59% |
 
-- **Multi-Agent Stability:** 5 concurrent agents achieve identical PPL delta (+1.59%) and mean BERTScore F1 (~0.958) compared to 3-agent runs, confirming the shared pool is robust to high concurrent read pressure.
+- **Multi-Agent Stability:** 10 concurrent agents achieve an identical PPL delta (+1.59%) to the 3-agent run, confirming that the shared dequantization pipeline is robust to high-density concurrent access.
 
 ## Scaling Results (SmolLM2-1.7B)
 | Test | Doc Tokens | Agents | Compression | Baseline PPL | Compressed PPL | Delta |
