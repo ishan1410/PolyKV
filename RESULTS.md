@@ -19,6 +19,7 @@ produce quality output comparable to full-precision per-agent KV caches?
 - 2.91x compression ratio is consistent across model scales (1.7B to 8B).
 - Quantization noise at 3-bit Value compression remains negligible for 8B models.
 - Shared pool successfully serves 3 concurrent readers with minimal phrasing divergence (Agent 0).
+- **Memory Scaling Efficiency (3 agents):** 0.058 GB (PolyKV) vs 0.505 GB (Full Cache) = 88.5% total reduction in KV memory overhead.
 
 ## Scaling Results (SmolLM2-1.7B)
 | Test | Doc Tokens | Agents | Compression | Baseline PPL | Compressed PPL | Delta |

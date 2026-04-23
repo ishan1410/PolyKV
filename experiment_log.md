@@ -79,5 +79,11 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
   * **Compression Ratio:** 2.91x Memory Reduction
   * **Perplexity:** Baseline PPL: 9.259 | Compressed PPL: 9.377 | Delta: +1.27%
   * **Token Overlap:** Agent 0: 0.843 | Agent 1: 1.000 | Agent 2: 1.000
+  * **KV Cache Memory:**
+    * Full precision KV (per agent): 0.168 GB
+    * Compressed pool (shared, 1x): 0.058 GB
+    * 3 agents WITHOUT PolyKV sharing: 0.505 GB
+    * 3 agents WITH PolyKV pool: 0.058 GB
+    * Total memory saved (3 agents): 0.447 GB (88.5% reduction)
 * **Interpretation:** Successfully scaled to an 8B parameter model across 32 layers. 1.27% PPL delta is well within the 5% threshold. High token overlap (2/3 perfect) confirms the shared pool's fidelity on larger architectures. This result serves as the primary validation for the research paper.
 
