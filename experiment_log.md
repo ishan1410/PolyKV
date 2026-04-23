@@ -70,3 +70,14 @@ Documenting the empirical progression of the PolyKV infrastructure aiming to val
   * **Token Overlap:** Agent 0: 1.000 [✓ Good] | Agent 1: 1.000 [✓ Good] | Agent 2: 1.000 [✓ Good]
 * **Analysis:** First standardized benchmark result. Compression ratio remains stable at 2.91x. All agents achieve perfect 1.000 token overlap — cleanest agent quality result across all tests. PPL delta of +0.92% is higher than the coherent ARPANET document (-0.26%), consistent with WikiText-2's diverse, incoherent multi-article structure providing less redundancy for quantization noise to regularize. Both compressed and baseline models generate identical Wikipedia-style markup continuations, confirming the compressed pool perfectly replicates baseline behavior on diverse text.
 
+### April 22, 2026: PolyKV Full Validation — Llama-3-8B-Instruct
+* **Configuration:** 
+  * Model: `meta-llama/Meta-Llama-3-8B-Instruct` (4-bit NF4 weights, bfloat16 KV)
+  * Dataset: WikiText-2 test split (~1837 tokens)
+  * Hardware: Kaggle T4 x2
+* **Results:**
+  * **Compression Ratio:** 2.91x Memory Reduction
+  * **Perplexity:** Baseline PPL: 9.259 | Compressed PPL: 9.377 | Delta: +1.27%
+  * **Token Overlap:** Agent 0: 0.843 | Agent 1: 1.000 | Agent 2: 1.000
+* **Interpretation:** Successfully scaled to an 8B parameter model across 32 layers. 1.27% PPL delta is well within the 5% threshold. High token overlap (2/3 perfect) confirms the shared pool's fidelity on larger architectures. This result serves as the primary validation for the research paper.
+
