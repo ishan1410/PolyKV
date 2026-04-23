@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from turboquant import TurboQuantMSE
+from .turboquant import TurboQuantMSE
 
 class AsymmetricKVCompressor:
     """
